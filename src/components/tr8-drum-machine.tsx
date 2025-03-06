@@ -203,7 +203,8 @@ export function TR8DrumMachine() {
 
     if (sequencerRef.current.isRunning()) {
       sequencerRef.current.stop()
-      setCurrentStep(0)
+      // Don't reset the current step when stopping
+      // setCurrentStep(0)
       setIsPlaying(false)
     } else {
       audioEngineRef.current.resume().then(() => {
@@ -217,6 +218,7 @@ export function TR8DrumMachine() {
     setPattern(createDefaultPattern())
     if (sequencerRef.current?.isRunning()) {
       sequencerRef.current.stop()
+      // Reset the current step when clearing the pattern
       setCurrentStep(0)
       setIsPlaying(false)
     }

@@ -34,12 +34,14 @@ export class Sequencer {
     if (this.isPlaying) return
 
     this.isPlaying = true
-    const stepTime = 60000 / this.pattern.tempo / 4 // 16th notes
     this.lastStepTime = performance.now()
 
     // Use requestAnimationFrame for more accurate timing, especially in Safari
     const scheduleStep = () => {
       if (!this.isPlaying) return
+
+      // Calculate step time based on current tempo - allows for dynamic tempo changes
+      const stepTime = 60000 / this.pattern.tempo / 4 // 16th notes
 
       const currentTime = performance.now()
       if (currentTime - this.lastStepTime >= stepTime) {
@@ -67,16 +69,17 @@ export class Sequencer {
       this.intervalId = null
     }
 
-    this.currentStep = 0
+    // Don't reset the current step when stopping
+    // this.currentStep = 0
   }
 
   setTempo(tempo: number): void {
+    // Simply update the tempo without stopping and restarting
+    // This will take effect on the next step calculation
     this.pattern.tempo = tempo
 
-    if (this.isPlaying) {
-      this.stop()
-      this.start()
-    }
+    // No need to stop and restart - the scheduler will use the new tempo value
+    // on its next iteration when calculating the step time
   }
 
   getPattern(): Pattern {
