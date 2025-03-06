@@ -4,16 +4,9 @@ import { AudioEngine, DrumSounds } from "@/lib/audio-engine"
 import { Sequencer, type Track, createDefaultPattern } from "@/lib/sequencer"
 import { cn } from "@/lib/utils"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import React from "react"
 import { DrumChannel } from "./drum-channel"
 import { Knob } from "./knob"
 import { StepSequencer } from "./step-sequencer"
-
-// Memoize the DrumChannel component to prevent unnecessary re-renders
-const MemoizedDrumChannel = React.memo(DrumChannel)
-
-// Memoize the StepSequencer component to prevent unnecessary re-renders
-const MemoizedStepSequencer = React.memo(StepSequencer)
 
 export function TR8DrumMachine() {
   const [initialized, setInitialized] = useState(false)
@@ -150,9 +143,7 @@ export function TR8DrumMachine() {
       })
 
       // Trigger sounds for active tracks
-      for (const track of activeTracks) {
-        triggerSound(track)
-      }
+      activeTracks.forEach(triggerSound)
     })
 
     setInitialized(true)
@@ -330,7 +321,7 @@ export function TR8DrumMachine() {
           {/* Drum Channels - Increased spacing */}
           <div className="mb-6 grid grid-cols-13 gap-0 border-neutral-700 border-t border-b py-4">
             {memoizedTracks.map((track) => (
-              <MemoizedDrumChannel
+              <DrumChannel
                 key={track.id}
                 id={track.id}
                 name={track.name}
@@ -352,11 +343,7 @@ export function TR8DrumMachine() {
                 </div>
               ))}
             </div>
-            <MemoizedStepSequencer
-              steps={activeTrackSteps}
-              currentStep={currentStep}
-              onStepToggle={handleActiveTrackStepToggle}
-            />
+            <StepSequencer steps={activeTrackSteps} currentStep={currentStep} onStepToggle={handleActiveTrackStepToggle} />
           </div>
         </div>
 

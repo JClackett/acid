@@ -2,6 +2,7 @@
 
 import type { Step } from "@/lib/sequencer"
 import { cn } from "@/lib/utils"
+import { memo } from "react"
 
 interface StepSequencerProps {
   steps: Step[]
@@ -10,7 +11,7 @@ interface StepSequencerProps {
   className?: string
 }
 
-export function StepSequencer({ steps, currentStep, onStepToggle, className }: StepSequencerProps) {
+export const StepSequencer = memo(function _StepSequencer({ steps, currentStep, onStepToggle, className }: StepSequencerProps) {
   // Function to get color based on step position
   const getStepColor = (step: number): string => {
     if (step < 4) return "bg-red-500"
@@ -37,4 +38,4 @@ export function StepSequencer({ steps, currentStep, onStepToggle, className }: S
       </div>
     </div>
   )
-}
+})

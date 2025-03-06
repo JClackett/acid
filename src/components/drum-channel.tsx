@@ -1,7 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
-import { useMemo } from "react"
+import { memo, useMemo } from "react"
 import { Knob } from "./knob"
 import { Slider } from "./slider"
 
@@ -15,7 +15,15 @@ interface DrumChannelProps {
   className?: string
 }
 
-export function DrumChannel({ id, name, params, onParamChange, isActive, onTrackSelect, className }: DrumChannelProps) {
+export const DrumChannel = memo(function _DrumChannel({
+  id,
+  name,
+  params,
+  onParamChange,
+  isActive,
+  onTrackSelect,
+  className,
+}: DrumChannelProps) {
   const renderControls = useMemo(() => {
     switch (id) {
       case "bd": // Bass Drum
@@ -66,4 +74,4 @@ export function DrumChannel({ id, name, params, onParamChange, isActive, onTrack
       </div>
     </div>
   )
-}
+})
